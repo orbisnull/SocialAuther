@@ -62,6 +62,7 @@ class Facebook extends AbstractAdapter
 
                 if (isset($userInfo['id'])) {
                     $this->userInfo = $userInfo;
+                    $this->userInfo['token'] = $tokenInfo;
                     $result = true;
                 }
             }
