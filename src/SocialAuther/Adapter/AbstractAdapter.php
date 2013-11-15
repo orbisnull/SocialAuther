@@ -254,8 +254,7 @@ abstract class AbstractAdapter implements AdapterInterface
 
     public function getToken()
     {
-        $token = $this->getInfoVar('token');
-        return isset($token['access_token']) ? $token['access_token'] : null;
+        return $this->getInfoVar('token');
     }
 
 

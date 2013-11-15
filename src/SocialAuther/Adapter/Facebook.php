@@ -62,6 +62,7 @@ class Facebook extends AbstractAdapter
 
                 if (isset($userInfo['id'])) {
                     $this->userInfo = $userInfo;
+                    $tokenInfo['expires_time'] = time() + $tokenInfo['expires'];
                     $this->userInfo['token'] = $tokenInfo;
                     $result = true;
                 }
@@ -84,7 +85,7 @@ class Facebook extends AbstractAdapter
                 'client_id'     => $this->clientId,
                 'redirect_uri'  => $this->redirectUri,
                 'response_type' => 'code',
-                'scope'         => 'email,user_birthday'
+                'scope'         => 'email,user_birthday,publish_actions'
             )
         );
     }
