@@ -257,5 +257,10 @@ abstract class AbstractAdapter implements AdapterInterface
         return $this->getInfoVar('token');
     }
 
+    public function prepareRawToken($tokenInfo)
+    {
+        return $tokenInfo;
+    }
+
 
 }

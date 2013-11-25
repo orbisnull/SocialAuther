@@ -79,7 +79,7 @@ class Vk extends AbstractAdapter
                 $userInfo = $this->get('https://api.vk.com/method/users.get', $params);
                 if (isset($userInfo['response'][0]['uid'])) {
                     $this->userInfo = $userInfo['response'][0];
-                    $this->userInfo['token'] = $tokenInfo;
+                    $this->userInfo['token'] = $this->prepareRawToken($tokenInfo);
                     $result = true;
                 }
             }
@@ -104,5 +104,11 @@ class Vk extends AbstractAdapter
                 'response_type' => 'code'
             )
         );
+    }
+
+    public function prepareRawToken($tokenInfo)
+    {
+        $tokenInfo['expires_time'] = time() + $tokenInfo['expires_in'];
+        return $tokenInfo;
     }
 }

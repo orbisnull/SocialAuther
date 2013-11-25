@@ -62,8 +62,7 @@ class Facebook extends AbstractAdapter
 
                 if (isset($userInfo['id'])) {
                     $this->userInfo = $userInfo;
-                    $tokenInfo['expires_time'] = time() + $tokenInfo['expires'];
-                    $this->userInfo['token'] = $tokenInfo;
+                    $this->userInfo['token'] = $this->prepareRawToken($tokenInfo);
                     $result = true;
                 }
             }
@@ -89,4 +88,12 @@ class Facebook extends AbstractAdapter
             )
         );
     }
+
+    public function prepareRawToken($tokenInfo)
+    {
+        $tokenInfo['expires_time'] = time() + $tokenInfo['expires'];
+        return $tokenInfo;
+    }
+
+
 }
