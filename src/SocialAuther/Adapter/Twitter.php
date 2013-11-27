@@ -39,8 +39,8 @@ class Twitter extends AbstractAdapter
         parent::__construct($config);
 
         $this->socialFieldsMap = array(
-            'socialId'   => 'id_str',
-            'avatar'     => 'profile_image_url',
+            'socialId' => 'id_str',
+            'avatar'   => 'profile_image_url',
         );
 
         $this->provider = 'twitter';
@@ -61,7 +61,7 @@ class Twitter extends AbstractAdapter
      */
     public function getName()
     {
-       return (isset($this->userInfo['name'])) ? $this->userInfo['name'] : null;
+        return (isset($this->userInfo['name'])) ? $this->userInfo['name'] : null;
     }
 
     /**
@@ -84,7 +84,7 @@ class Twitter extends AbstractAdapter
     {
         $name = $this->getName();
         $name = explode(' ', $name);
-        if (count($name)<1) {
+        if (count($name) < 1) {
             return null;
         }
         return reset($name);
@@ -94,7 +94,7 @@ class Twitter extends AbstractAdapter
     {
         $name = $this->getName();
         $name = explode(' ', $name);
-        if (count($name)<2) {
+        if (count($name) < 2) {
             return null;
         }
         return end($name);
@@ -102,7 +102,7 @@ class Twitter extends AbstractAdapter
 
     public function getAvatar()
     {
-        $avatarUrl =  parent::getAvatar();
+        $avatarUrl = parent::getAvatar();
         $avatarUrl = str_replace('_normal.', '.', $avatarUrl);
         return $avatarUrl;
     }
@@ -147,6 +147,9 @@ class Twitter extends AbstractAdapter
         }
 
         $this->userInfo = $userInfo;
+        if (isset($this->userInfo['token'])) {
+            $this->userInfo['token'] = $this->prepareRawToken($userInfo['token']);
+        }
         return true;
     }
 
@@ -182,6 +185,16 @@ class Twitter extends AbstractAdapter
         return $this->session;
     }
 
+    /**
+     * @param $oauthToken
+     * @param $oauthTokenSecret
+     * @return \TwitterAuth\TwitterAuth
+     */
+    public function getActionTool($oauthToken, $oauthTokenSecret)
+    {
+        $tool = $this->getTwAuth()->getToolLocal($oauthToken, $oauthTokenSecret);
+        return $tool;
+    }
 
 
 }

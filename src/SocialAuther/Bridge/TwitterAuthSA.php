@@ -42,6 +42,8 @@ class TwitterAuthSA
      */
     protected $session;
 
+    protected $userAccessToken;
+
     function __construct($consumerKey, $consumerSecret, $oauthCallback, Session $session = null)
     {
         $this->consumerKey = $consumerKey;
@@ -171,6 +173,9 @@ class TwitterAuthSA
         foreach($rc as $key => &$field){
             if(is_object($field))$field = $this->objToArray($field);
         }
+        if (!empty($this->userAccessToken)) {
+            $rc['token'] = $this->userAccessToken;
+        }
         return $rc;
     }
 
@@ -181,8 +186,8 @@ class TwitterAuthSA
         $tool = $this->getToolLocal($oauthToken, $oauthTokenSecret);
         $oauthVerifier = $this->getRequest()->getVar(self::VAR_OAUTH_VERIFIER);
 
-        $accessToken = $tool->getAccessToken($oauthVerifier);
-        $this->sessionSet(self::VAR_OAUTH_ACCESS_TOKEN, $accessToken);
+        $this->userAccessToken = $tool->getAccessToken($oauthVerifier);
+        $this->sessionSet(self::VAR_OAUTH_ACCESS_TOKEN, $this->userAccessToken);
         $this->sessionUnset(self::VAR_OAUTH_TOKEN);
         $this->sessionUnset(self::VAR_OAUTH_TOKEN_SECRET);
         if ($tool->http_code !== 200) {
