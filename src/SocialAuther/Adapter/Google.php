@@ -21,6 +21,16 @@ class Google extends AbstractAdapter
     }
 
     /**
+     * Get user name or null if it is not set
+     *
+     * @return string|null
+     */
+    public function getName()
+    {
+        return (isset($this->userInfo['name'])) ? $this->userInfo['name'] : null;
+    }
+
+    /**
      * Get user birthday or null if it is not set
      *
      * @return string|null

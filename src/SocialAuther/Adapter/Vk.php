@@ -88,6 +88,17 @@ class Vk extends AbstractAdapter
         return $result;
     }
 
+
+    /**
+     * Get user name or null if it is not set
+     *
+     * @return string|null
+     */
+    public function getName()
+    {
+        return (isset($this->userInfo['first_name'])) ? $this->userInfo['first_name']." ".$this->userInfo['last_name'] : null;
+    }
+
     /**
      * Prepare params for authentication url
      *
